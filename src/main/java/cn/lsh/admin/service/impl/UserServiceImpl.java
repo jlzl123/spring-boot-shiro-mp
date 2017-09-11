@@ -49,5 +49,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 		}
 		return roles;
 	}
+
+	@Override
+	public List<User> findUsers() {
+		// TODO Auto-generated method stub
+		return userMapper.selectUserList();
+	}
 	
 }

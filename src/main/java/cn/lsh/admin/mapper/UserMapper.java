@@ -19,5 +19,5 @@ public interface UserMapper extends BaseMapper<User> {
 
 	public User findByName(String username);
 	
-	public List<User> selectUserList(Page<User> page);
+	public List<User> selectUserList();
 }

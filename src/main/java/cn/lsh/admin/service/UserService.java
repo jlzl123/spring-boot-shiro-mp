@@ -20,4 +20,6 @@ public interface UserService extends IService<User> {
 	public User findByName(String username);
 	
 	public List<Role> findRolePermissions(long uid);
+	
+	public List<User> findUsers();
 }

@@ -84,6 +84,7 @@ public class ShiroConfiguration {
 		filterChainDefinitionMap.put("/user/**", "authc,roles[user]");//表示需要认证才可以访问
 		filterChainDefinitionMap.put("/shop/**", "authc,roles[shop]");
 		filterChainDefinitionMap.put("/admin/**", "authc,roles[admin]");
+		filterChainDefinitionMap.put("/", "authc");
 		filterChainDefinitionMap.put("/**", "anon");//表示可以匿名访问
 		
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);

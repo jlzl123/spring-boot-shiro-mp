@@ -22,7 +22,7 @@ public class User extends Model<User> {
 
     private static final long serialVersionUID = 1L;
 
-	@TableId(value="id", type= IdType.AUTO)
+	@TableId(value="id", type= IdType.AUTO)//auto表示数据库id自增
 	private Long id;
 	private String username;
 	private String password;
