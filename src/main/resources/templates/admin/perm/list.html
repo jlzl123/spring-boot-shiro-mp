@@ -11,6 +11,7 @@
     <link href="/css/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
     <link href="/css/animate.min.css" rel="stylesheet">
     <link href="/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="/css/sweetalert.min.css" rel="stylesheet">
 </head>
 
 <body class="gray-bg">
@@ -38,19 +39,41 @@
         </div>
         <div class="ibox-content">
             <div class="row row-lg">
+                        <div class="col-sm-12">
+                    <!-- Example Toolbar -->
+                    <div class="example-wrap">
+                        <div class="example">
+                            <div class="btn-group hidden-xs" id="exampleToolbar" role="group">
+                                <button data-toggle="modal" class="btn btn-outline btn-default" href="#modal-add-form" >
+                                    <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline btn-default">
+                                    <i class="glyphicon glyphicon-heart" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline btn-default" onclick="confirm()">
+                                    <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Example Toolbar -->
+                </div>
                 <div class="col-sm-12">
-                    <h4 class="example-title">权限列表</h4>
+                    <!-- <h4 class="example-title">权限列表</h4> -->
                     <div class="example">
-                        <table data-toggle="table" data-url="/admin/perm/list" data-height="600" data-response-handler="handlerData"
+                        <table id="permTable" data-toggle="table" data-url="/admin/perm/list" data-height="600" data-response-handler="handlerData"
                                data-pagination="true" data-mobile-responsive="true" cache="false">
                             <thead>
                             <tr>
-                                <th data-width="5%"><input name="checkAll" type="checkbox" value="" /></th>
+                                <!-- <th data-width="5%"><input name="checkAll" type="checkbox" value="" /></th> -->
+                                <th data-field="checkbox" data-width="5%" data-checkbox="true"></th>
                                 <th data-field="id" data-width="15%">ID</th>
-                                <th data-field="name" data-width="15%">角色名</th>
+                                <th data-field="name" data-width="15%">权限名称</th>
                                 <th data-field="permission" data-width="15%">权限</th>
-                                <th data-field="state" data-width="10%" data-formatter="stateFormatter">状态</th>
-                                <th data-width="20%" >操作</th>
+                                <th data-field="url" data-width="15%">URL</th>
+                                <th data-field="type" data-width="5%">类型</th>
+                                <!-- <th data-field="state" data-width="10%" data-formatter="stateFormatter">状态</th> -->
+                                <th data-width="20%" data-formatter="actionFormatter">操作</th>
                             </tr>
                             </thead>
                         </table>
@@ -60,6 +83,117 @@
         </div>
     </div>
     <!-- End Panel Basic -->
+     <div id="modal-form" class="modal fade" aria-hidden="true">
+         <div class="modal-dialog">
+              <div class="modal-content">
+                   <div class="modal-body">
+                        <div class="row">
+                             <h3 class="m-t-none m-b">权限修改</h3>
+                             <div class="col-sm-12">
+                                  <div class="ibox float-e-margins">
+                                      <div class="ibox-content">
+                                          <form action="update" method="post" class="form-horizontal">
+                                             <input type="hidden" id="id" name="id">
+                                             <div class="form-group">
+                                                 <label class="col-sm-2 control-label">权限名称</label>
+                                                 <div class="col-sm-10">
+                                                     <input type="text" class="form-control" id="name" name="name">
+                                                 </div>
+                                             </div>
+                                             <!-- 虚线 -->
+                                             <div class="hr-line-dashed"></div>
+                                             <div class="form-group">
+                                                 <label class="col-sm-2 control-label">权限</label>
+                                                 <div class="col-sm-10">
+                                                     <input type="text" class="form-control" id="permission" name="permission">
+                                                 </div>
+                                             </div>
+                                             <div class="hr-line-dashed"></div>
+                                             <div class="form-group">
+                                                 <label class="col-sm-2 control-label">URL</label>
+                                                 <div class="col-sm-10">
+                                                     <input type="text" class="form-control" id="url" name="url">
+                                                 </div>
+                                             </div>
+                                             <div class="hr-line-dashed"></div>
+                                             <div class="form-group">
+                                                 <label class="col-sm-2 control-label">类型</label>
+                                                 <div class="col-sm-10">
+                                                     <input type="text" class="form-control" id="type" name="type">
+                                                 </div>
+                                             </div>                                             
+                                             <div class="hr-line-dashed"></div>
+                                             <div class="form-group">
+                                                 <div class="col-sm-4 col-sm-offset-2">
+                                                     <button class="btn btn-primary" type="submit">保存内容</button>
+                                                     <button class="btn btn-white" type="button" onclick="closeModal()">取消</button>
+                                                 </div>
+                                             </div>
+                                          </form>
+                                      </div>
+                                  </div>
+                             </div>
+                        </div>
+                   </div>
+              </div>
+         </div>
+    </div>
+    
+    <div id="modal-add-form" class="modal fade" aria-hidden="true">
+         <div class="modal-dialog">
+              <div class="modal-content">
+                   <div class="modal-body">
+                        <div class="row">
+                             <h3 class="m-t-none m-b">权限修改</h3>
+                             <div class="col-sm-12">
+                                  <div class="ibox float-e-margins">
+                                      <div class="ibox-content">
+                                          <form action="add" method="post" class="form-horizontal">
+                                             <input type="hidden" id="id" name="id">
+                                             <div class="form-group">
+                                                 <label class="col-sm-2 control-label">权限名称</label>
+                                                 <div class="col-sm-10">
+                                                     <input type="text" class="form-control" id="name" name="name">
+                                                 </div>
+                                             </div>
+                                             <!-- 虚线 -->
+                                             <div class="hr-line-dashed"></div>
+                                             <div class="form-group">
+                                                 <label class="col-sm-2 control-label">权限</label>
+                                                 <div class="col-sm-10">
+                                                     <input type="text" class="form-control" id="permission" name="permission">
+                                                 </div>
+                                             </div>
+                                             <div class="hr-line-dashed"></div>
+                                             <div class="form-group">
+                                                 <label class="col-sm-2 control-label">URL</label>
+                                                 <div class="col-sm-10">
+                                                     <input type="text" class="form-control" id="url" name="url">
+                                                 </div>
+                                             </div>
+                                             <div class="hr-line-dashed"></div>
+                                             <div class="form-group">
+                                                 <label class="col-sm-2 control-label">类型</label>
+                                                 <div class="col-sm-10">
+                                                     <input type="text" class="form-control" id="type" name="type">
+                                                 </div>
+                                             </div>                                             
+                                             <div class="hr-line-dashed"></div>
+                                             <div class="form-group">
+                                                 <div class="col-sm-4 col-sm-offset-2">
+                                                     <button class="btn btn-primary" type="submit">保存内容</button>
+                                                     <button class="btn btn-white" type="button" onclick="closeModal()">取消</button>
+                                                 </div>
+                                             </div>
+                                          </form>
+                                      </div>
+                                  </div>
+                             </div>
+                        </div>
+                   </div>
+              </div>
+         </div>
+    </div>
 </div>
 <script src="/js/jquery.min.js?v=2.1.4"></script>
 <script src="/js/bootstrap.min.js?v=3.3.6"></script>
@@ -69,7 +203,8 @@
 <script src="/js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
 <!--<script src="/js/demo/bootstrap-table-demo.min.js"></script>-->
 <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
-<script src="/js/admin/user.js"></script>
+<script type="text/javascript" src="/js/sweetalert.min.js"></script>
+<script src="/js/admin/perm.js"></script>
 </body>
 
 <!-- Mirrored from www.zi-han.net/theme/hplus/table_bootstrap.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:06 GMT -->

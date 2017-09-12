@@ -99,4 +99,5 @@ function deleteOne(id){
 
 function closeModal() {
     $('#modal-form').modal('hide');
+    $('#modal-add-form').modal('hide');
 }
